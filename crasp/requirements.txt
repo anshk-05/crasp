@@ -1,0 +1,31 @@
+# CRASP — pinned dependencies
+# Install with: pip install -r requirements.txt
+
+# Core ML stack
+torch==2.2.0
+transformers==4.44.0
+accelerate==0.33.0
+peft==0.12.0
+bitsandbytes==0.43.0
+
+# Datasets + evaluation
+datasets==2.20.0
+lm-eval==0.4.3
+
+# Data / serialisation
+jsonlines==4.0.0
+pyyaml>=6.0
+
+# Numerics
+scipy>=1.11.0
+scikit-learn>=1.3.0
+pandas>=2.1.0
+numpy>=1.26.0
+
+# Visualisation
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Utilities
+tqdm>=4.66.0
+wandb>=0.16.0

@@ -1,0 +1,55 @@
+# CRASP Base Configuration
+# Adjust paths for your environment (RunPod network volume or local).
+
+# ── Paths ────────────────────────────────────────────────────────────────────
+paths:
+  # Root of the network volume / local data store
+  volume_root: "/workspace/crasp-vol"
+
+  # Sub-paths (relative to volume_root, overridable with absolute paths)
+  model_cache:    "/workspace/crasp-vol/models"
+  data_dir:       "data"               # raw + calibration datasets live here
+  checkpoint_dir: "/workspace/crasp-vol/checkpoints"
+  results_dir:    "results"
+
+  # Sub-directories under data_dir (created automatically by scripts)
+  raw_data_dir:         "data/raw"
+  calibration_data_dir: "data/calibration"
+
+# ── Dataset identifiers (HuggingFace Hub) ────────────────────────────────────
+datasets:
+  medqa:
+    hf_id:  "GBaker/MedQA-USMLE-4-options"
+    splits: ["train", "test"]
+
+  medhalt:
+    hf_id:  "medhalt/Med-HALT"
+    # Splits used for safety calibration
+    splits: ["reasoning_hallucination", "memory_hallucination"]
+
+# ── Model ─────────────────────────────────────────────────────────────────────
+model:
+  name:        "meta-llama/Llama-2-7b-hf"
+  dtype:       "float16"      # fp16 for inference + activation capture
+  device_map:  "auto"         # accelerate handles multi-GPU if available
+  max_seq_len: 2048
+
+# ── Calibration ───────────────────────────────────────────────────────────────
+calibration:
+  num_samples: 128            # Per dataset (matches Wanda/SparseGPT protocol)
+  max_tokens:  2048
+  batch_size:  4              # Reduce if OOM during activation capture
+  seed:        42
+
+# ── Evaluation ────────────────────────────────────────────────────────────────
+eval:
+  medqa_split:  "test"        # Full 1273-question test set
+  medhalt_split: "test"
+  batch_size:   8
+  num_fewshot:  0             # Zero-shot for fair comparison
+
+# ── Logging ───────────────────────────────────────────────────────────────────
+logging:
+  level: "INFO"               # DEBUG for verbose output
+  wandb_project: "crasp"
+  wandb_enabled: false        # Set true when running on RunPod
