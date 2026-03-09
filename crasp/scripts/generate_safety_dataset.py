@@ -9,13 +9,14 @@ the model processes these safety-critical prompts form the *safety saliency
 map* — the set of weights that CRASP refuses to prune regardless of sparsity
 target.
 
-Task types consumed
--------------------
-  • reasoning_hallucination — fabricated diseases / treatments / drug combos
-  • memory_hallucination    — false clinical guidelines, incorrect dosages
+Task types consumed (Med-HALT configs)
+--------------------------------------
+  • reasoning_fake — fabricated diseases / treatments / drug combos
+  • reasoning_nota — "none of the above" reasoning traps
+  • reasoning_FCT  — false clinical triples
 
-The script samples 64 examples from each task type (proportionally adjusted
-if either split is smaller than 64).
+The script samples examples proportionally from each available config,
+targeting 128 total by default.
 
 Output
 ------
@@ -43,7 +44,7 @@ import random
 from pathlib import Path
 from typing import Any
 
-from datasets import load_from_disk, Dataset
+from datasets import load_from_disk, Dataset, concatenate_datasets
 
 # ── Prompt template (swap by editing this constant) ──────────────────────────
 
@@ -64,15 +65,14 @@ Answer: {answer}\
 """
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-MEDHALT_SPLITS = ["reasoning_hallucination", "memory_hallucination"]
+# Med-HALT uses HF *configs*, not splits.  Each config directory may contain
+# sub-split directories (train, test, all) written by download_data.py.
+MEDHALT_CONFIGS = ["reasoning_fake", "reasoning_nota", "reasoning_FCT"]
 
 DEFAULT_INPUT_DIR = Path("data/raw/medhalt")
 DEFAULT_OUTPUT_PATH = Path("data/calibration/safety_calibration.jsonl")
 DEFAULT_NUM_SAMPLES = 128
 DEFAULT_SEED = 42
-
-# Per-split quota: half of total samples each, adjusted if a split is small
-SAMPLES_PER_SPLIT = DEFAULT_NUM_SAMPLES // len(MEDHALT_SPLITS)  # 64
 
 logger = logging.getLogger(__name__)
 
@@ -178,7 +178,7 @@ def _infer_expected_label(example: dict[str, Any], task_type: str) -> str:
     example:
         Raw Med-HALT example.
     task_type:
-        The split name (e.g. ``"reasoning_hallucination"``).
+        The config name (e.g. ``"reasoning_fake"``).
 
     Returns
     -------
@@ -193,28 +193,77 @@ def _infer_expected_label(example: dict[str, Any], task_type: str) -> str:
 
 # ── Dataset loading ───────────────────────────────────────────────────────────
 
-def load_medhalt_split(input_dir: Path, split: str) -> Dataset | None:
+def load_medhalt_config(input_dir: Path, config: str) -> Dataset | None:
     """
-    Load a single Med-HALT split from disk.
+    Load a single Med-HALT config from disk.
+
+    After ``download_data.py`` saves Med-HALT, each config lives under
+    ``input_dir/<config>/`` and may contain sub-split directories
+    (``train/``, ``test/``, ``all/``).  This function loads and concatenates
+    all available sub-splits into a single Dataset.
 
     Parameters
     ----------
     input_dir:
-        Root directory containing Med-HALT Arrow files (one sub-dir per split).
-    split:
-        Split name, e.g. ``"reasoning_hallucination"``.
+        Root directory containing Med-HALT Arrow files
+        (e.g. ``data/raw/medhalt``).
+    config:
+        Config name, e.g. ``"reasoning_fake"``.
 
     Returns
     -------
-    HuggingFace ``Dataset``, or ``None`` if the split is not found locally.
+    HuggingFace ``Dataset``, or ``None`` if the config is not found locally.
     """
-    split_path = input_dir / split
-    if not split_path.exists():
-        logger.warning("Med-HALT split '%s' not found at %s — skipping", split, split_path)
+    config_path = input_dir / config
+
+    if not config_path.exists():
+        logger.warning(
+            "Med-HALT config '%s' not found at %s — skipping", config, config_path
+        )
         return None
-    ds = load_from_disk(str(split_path))
-    logger.info("Loaded Med-HALT '%s' split: %d examples", split, len(ds))
-    return ds
+
+    # The config directory may contain sub-split dirs (train/, test/, all/)
+    # or may itself be a single Arrow dataset directory.
+    sub_dirs = [d for d in config_path.iterdir() if d.is_dir()]
+
+    if not sub_dirs:
+        # Try loading the config directory itself as a dataset
+        try:
+            ds = load_from_disk(str(config_path))
+            logger.info("Loaded Med-HALT '%s': %d examples", config, len(ds))
+            return ds
+        except Exception:
+            logger.warning(
+                "Med-HALT config '%s' exists but could not be loaded — skipping",
+                config,
+            )
+            return None
+
+    # Load each sub-split and concatenate
+    datasets = []
+    for sub_dir in sorted(sub_dirs):
+        try:
+            ds = load_from_disk(str(sub_dir))
+            logger.debug(
+                "  Loaded %s/%s: %d examples", config, sub_dir.name, len(ds)
+            )
+            datasets.append(ds)
+        except Exception as exc:
+            logger.warning(
+                "  Could not load %s/%s: %s — skipping",
+                config, sub_dir.name, exc,
+            )
+
+    if not datasets:
+        logger.warning(
+            "Med-HALT config '%s' has no loadable sub-splits — skipping", config
+        )
+        return None
+
+    combined = concatenate_datasets(datasets) if len(datasets) > 1 else datasets[0]
+    logger.info("Loaded Med-HALT '%s': %d examples (from %d sub-splits)",
+                config, len(combined), len(datasets))
+    return combined
 
 
 # ── Sampling ──────────────────────────────────────────────────────────────────
@@ -234,7 +283,7 @@ def balanced_sample(
     Parameters
     ----------
     splits:
-        Mapping of split name → HuggingFace Dataset.
+        Mapping of config name → HuggingFace Dataset.
     total:
         Target total number of examples.
     seed:
@@ -242,7 +291,7 @@ def balanced_sample(
 
     Returns
     -------
-    List of (split_name, example_dict) tuples, shuffled.
+    List of (config_name, example_dict) tuples, shuffled.
     """
     rng = random.Random(seed)
     num_splits = len(splits)
@@ -372,18 +421,18 @@ def generate(
 
     Raises
     ------
-    RuntimeError if no Med-HALT splits could be loaded.
+    RuntimeError if no Med-HALT configs could be loaded.
     """
-    # Load available splits
+    # Load available configs
     loaded: dict[str, Dataset] = {}
-    for split in MEDHALT_SPLITS:
-        ds = load_medhalt_split(input_dir, split)
+    for config in MEDHALT_CONFIGS:
+        ds = load_medhalt_config(input_dir, config)
         if ds is not None:
-            loaded[split] = ds
+            loaded[config] = ds
 
     if not loaded:
         raise RuntimeError(
-            f"No Med-HALT splits found in {input_dir}. "
+            f"No Med-HALT configs found in {input_dir}. "
             "Run scripts/download_data.py first."
         )
 

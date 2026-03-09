@@ -1,0 +1,85 @@
+{
+  "builder_name": "json",
+  "citation": "",
+  "config_name": "default",
+  "dataset_name": "med_qa-usmle-4-options",
+  "dataset_size": 17121864,
+  "description": "",
+  "download_checksums": {
+    "hf://datasets/GBaker/MedQA-USMLE-4-options@0fb93dd23a7339b6dcd27e241cb9b5eca62d4d18/phrases_no_exclude_train.jsonl": {
+      "num_bytes": 16211077,
+      "checksum": null
+    },
+    "hf://datasets/GBaker/MedQA-USMLE-4-options@0fb93dd23a7339b6dcd27e241cb9b5eca62d4d18/phrases_no_exclude_test.jsonl": {
+      "num_bytes": 2075679,
+      "checksum": null
+    }
+  },
+  "download_size": 18286756,
+  "features": {
+    "question": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "answer": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "options": {
+      "A": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "B": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "C": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "D": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    },
+    "meta_info": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "answer_idx": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "metamap_phrases": {
+      "feature": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "_type": "Sequence"
+    }
+  },
+  "homepage": "",
+  "license": "",
+  "size_in_bytes": 35408620,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 15175834,
+      "num_examples": 10178,
+      "dataset_name": "med_qa-usmle-4-options"
+    },
+    "test": {
+      "name": "test",
+      "num_bytes": 1946030,
+      "num_examples": 1273,
+      "dataset_name": "med_qa-usmle-4-options"
+    }
+  },
+  "version": {
+    "version_str": "0.0.0",
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}
