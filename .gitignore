@@ -1,0 +1,38 @@
+# -----------------------------------
+# Python Bytecode and Caches
+# -----------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# -----------------------------------
+# Virtual Environments & Secrets
+# -----------------------------------
+venv/
+env/
+.venv/
+.env
+.flaskenv
+
+# -----------------------------------
+# IDEs and Editors
+# -----------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -----------------------------------
+# OS Generated Files
+# -----------------------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------------------
+# Distribution / Packaging / Logs
+# -----------------------------------
+dist/
+build/
+*.egg-info/
+*.log

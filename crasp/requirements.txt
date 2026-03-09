@@ -2,7 +2,7 @@
 # Install with: pip install -r requirements.txt
 
 # Core ML stack
-torch==2.2.0
+torch
 transformers==4.44.0
 accelerate==0.33.0
 peft==0.12.0
