@@ -45,7 +45,6 @@ from __future__ import annotations
 import argparse
 import json
 import logging
-import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -64,7 +63,7 @@ if str(_PROJECT_ROOT) not in sys.path:
 
 from src.eval_harness import CRASPEvaluator
 from src.metrics import CRASPMetrics, compute_retention_report
-from src.wanda_loader import get_medical_cot_loaders, run_wanda_pruning
+from src.wanda_loader import get_c4_loaders, get_medical_cot_loaders, run_wanda_pruning
 
 logger = logging.getLogger(__name__)
 
@@ -199,13 +198,7 @@ def _run_single(
         )
     else:  # c4
         logger.info("Building C4 calibration dataloader …")
-        # Use Wanda's own C4 loader.
-        wanda_path = str(_PROJECT_ROOT / "vendors" / "wanda")
-        if wanda_path not in sys.path:
-            sys.path.insert(0, wanda_path)
-        from lib.data import get_loaders as wanda_get_loaders  # type: ignore[import]
-        dataloader, _ = wanda_get_loaders(
-            "c4",
+        dataloader = get_c4_loaders(
             nsamples=num_samples,
             seed=42,
             seqlen=seqlen,

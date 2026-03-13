@@ -53,6 +53,48 @@ _WANDA_LIB_PATH: Path = _PROJECT_ROOT / "vendors" / "wanda"
 # ── Public helpers ─────────────────────────────────────────────────────────────
 
 
+def get_c4_loaders(
+    nsamples: int,
+    seed: int,
+    seqlen: int,
+    tokenizer,
+) -> list[tuple[torch.Tensor, torch.Tensor]]:
+    """Build a Wanda-compatible C4 calibration dataloader with the current datasets API.
+
+    Wanda's vendored ``lib/data.py`` uses the obsolete ``'allenai--c4'`` config
+    name which no longer exists.  This reimplements the same logic with the
+    correct ``'en'`` config name supported by ``datasets >= 2.x``.
+
+    Returns the same ``list[(inp, tar)]`` format as :func:`get_medical_cot_loaders`.
+    """
+    from datasets import load_dataset  # type: ignore[import]
+
+    traindata = load_dataset(
+        "allenai/c4",
+        "en",
+        data_files={"train": "en/c4-train.00000-of-01024.json.gz"},
+        split="train",
+    )
+
+    random.seed(seed)
+    dataloader: list[tuple[torch.Tensor, torch.Tensor]] = []
+    for _ in range(nsamples):
+        # Keep sampling until we find a document long enough for one seqlen chunk.
+        while True:
+            i = random.randint(0, len(traindata) - 1)
+            enc = tokenizer(traindata[i]["text"], return_tensors="pt")
+            if enc.input_ids.shape[1] > seqlen:
+                break
+        start = random.randint(0, enc.input_ids.shape[1] - seqlen - 1)
+        inp = enc.input_ids[:, start : start + seqlen]
+        tar = inp.clone()
+        tar[:, :-1] = -100
+        dataloader.append((inp, tar))
+
+    logger.info("Built C4 dataloader: %d samples × %d tokens", nsamples, seqlen)
+    return dataloader
+
+
 def get_medical_cot_loaders(
     nsamples: int,
     seed: int,
@@ -117,11 +159,16 @@ def get_medical_cot_loaders(
     total_tokens = all_ids.shape[1]
     required_tokens = nsamples * seqlen
     if total_tokens < required_tokens:
-        raise ValueError(
-            f"Medical CoT corpus has {total_tokens} tokens after tokenisation, "
-            f"but {nsamples} samples × {seqlen} seqlen = {required_tokens} tokens "
-            "are required.  Reduce nsamples or seqlen, or add more CoT entries."
+        # Tile the corpus rather than failing.  Repeating medical CoT text still
+        # provides domain-specific calibration signal, which is the whole point.
+        reps = (required_tokens // total_tokens) + 1
+        all_ids = all_ids.repeat(1, reps)
+        logger.warning(
+            "CoT corpus (%d tokens) shorter than required (%d = %d×%d). "
+            "Tiling %dx to fill calibration buffer.",
+            total_tokens, required_tokens, nsamples, seqlen, reps,
         )
+    total_tokens = all_ids.shape[1]  # refresh after potential tiling
 
     # ── Slice into fixed-length chunks ────────────────────────────────────────
     dataloader: list[tuple[torch.Tensor, torch.Tensor]] = []
