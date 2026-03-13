@@ -1,0 +1,18 @@
+{
+  "clinical_accuracy": 0.5883739198743126,
+  "safety_score": 0.0013327780091628488,
+  "safety_breakdown": {
+    "reasoning_hallucination": 0.0013327780091628488,
+    "memory_hallucination": 0.0,
+    "macro_avg": 0.0013327780091628488
+  },
+  "retention": {
+    "clinical_retention": 0.9881266490765171,
+    "safety_retention": 0.45714285714285713,
+    "mean_retention": 0.7226347531096872
+  },
+  "model_name": "meta-llama/Llama-3.1-8B",
+  "sparsity": 0.25,
+  "timestamp": "2026-03-13T15:55:43.760455+00:00",
+  "calibration": "cot"
+}
