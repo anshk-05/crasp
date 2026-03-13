@@ -1,0 +1,73 @@
+{
+  "model": "meta-llama/Llama-3.1-8B",
+  "baseline": {
+    "clinical_accuracy": 0.5954438334642577,
+    "safety_score": 0.0029154518950437317,
+    "safety_breakdown": {
+      "reasoning_hallucination": 0.0029154518950437317,
+      "memory_hallucination": 0.0,
+      "macro_avg": 0.0029154518950437317
+    },
+    "retention": null,
+    "model_name": "meta-llama/Llama-3.1-8B",
+    "sparsity": 0.0,
+    "timestamp": "2026-03-09T20:43:58.141689+00:00"
+  },
+  "runs": [
+    {
+      "clinical_accuracy": 0.5828750981932443,
+      "safety_score": 0.0063723448563098705,
+      "safety_breakdown": {
+        "reasoning_hallucination": 0.0063723448563098705,
+        "memory_hallucination": 0.0,
+        "macro_avg": 0.0063723448563098705
+      },
+      "retention": {
+        "clinical_retention": 0.978891820580475,
+        "safety_retention": 1.0,
+        "mean_retention": 0.9894459102902375
+      },
+      "model_name": "meta-llama/Llama-3.1-8B",
+      "sparsity": 0.2,
+      "timestamp": "2026-03-13T13:24:55.659357+00:00",
+      "calibration": "cot"
+    },
+    {
+      "clinical_accuracy": 0.5781618224666143,
+      "safety_score": 0.01703456892961266,
+      "safety_breakdown": {
+        "reasoning_hallucination": 0.01703456892961266,
+        "memory_hallucination": 0.0,
+        "macro_avg": 0.01703456892961266
+      },
+      "retention": {
+        "clinical_retention": 0.9709762532981531,
+        "safety_retention": 1.0,
+        "mean_retention": 0.9854881266490765
+      },
+      "model_name": "meta-llama/Llama-3.1-8B",
+      "sparsity": 0.25,
+      "timestamp": "2026-03-13T13:35:19.797288+00:00",
+      "calibration": "cot"
+    },
+    {
+      "clinical_accuracy": 0.5522388059701493,
+      "safety_score": 0.011453561016243232,
+      "safety_breakdown": {
+        "reasoning_hallucination": 0.011453561016243232,
+        "memory_hallucination": 0.0,
+        "macro_avg": 0.011453561016243232
+      },
+      "retention": {
+        "clinical_retention": 0.9274406332453826,
+        "safety_retention": 1.0,
+        "mean_retention": 0.9637203166226913
+      },
+      "model_name": "meta-llama/Llama-3.1-8B",
+      "sparsity": 0.3,
+      "timestamp": "2026-03-13T13:46:11.113899+00:00",
+      "calibration": "cot"
+    }
+  ],
+  "timestamp": "20260313T130446Z"
+}
