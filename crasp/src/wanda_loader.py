@@ -370,12 +370,7 @@ def run_wanda_pruning(
 
             subset[name].weight.data[W_mask] = 0
 
-            logger.debug(
-                "Layer %d / %s — actual sparsity: %.4f",
-                i,
-                name,
-                W_mask.float().mean().item(),
-            )
+            logger.debug("Layer %d / %s pruned", i, name)
 
         # Propagate outputs to next layer's inputs.
         for j in range(nsamples):
