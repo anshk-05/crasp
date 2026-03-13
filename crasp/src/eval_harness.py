@@ -318,6 +318,50 @@ class CRASPEvaluator:
         logger.info("Model loaded successfully.")
         _log_gpu_memory()
 
+    @classmethod
+    def from_model(
+        cls,
+        model,
+        tokenizer,
+        model_name: str,
+        device: str = "cuda",
+        batch_size: int = 8,
+        max_length: int = 2048,
+    ) -> "CRASPEvaluator":
+        """Construct an evaluator from an already-loaded (e.g. pruned) model.
+
+        Skips model/tokenizer loading so the caller controls the model
+        lifecycle.  Used by ``scripts/run_wanda.py`` to evaluate pruned
+        models in-memory without writing checkpoints to disk.
+
+        Args:
+            model:       Loaded ``AutoModelForCausalLM`` instance (already on
+                         the correct device).
+            tokenizer:   Matching ``AutoTokenizer`` instance.
+            model_name:  Display name stored in result metadata (e.g. the
+                         HuggingFace model ID).
+            device:      Device string matching where ``model`` lives.
+            batch_size:  Evaluation batch size.
+            max_length:  Maximum total sequence length.
+
+        Returns:
+            A fully-initialised :class:`CRASPEvaluator` ready for
+            ``evaluate_all()``, ``evaluate_medqa()``, or
+            ``evaluate_medhalt()``.
+        """
+        instance = cls.__new__(cls)
+        instance.device = device
+        instance.model_name_or_path = model_name
+        instance.batch_size = batch_size
+        instance.max_length = max_length
+        instance.model = model
+        instance.tokenizer = tokenizer
+        if instance.tokenizer.pad_token is None:
+            instance.tokenizer.pad_token = instance.tokenizer.eos_token
+            instance.tokenizer.pad_token_id = instance.tokenizer.eos_token_id
+        instance.model.eval()
+        return instance
+
     # ── Internal inference helpers ─────────────────────────────────────────────
 
     @torch.no_grad()
