@@ -1,0 +1,11 @@
+{
+  "total_records": 128,
+  "invalid_option_prompts": 0,
+  "invalid_prompt_ids": [],
+  "task_counts": {
+    "reasoning_FCT": 42,
+    "reasoning_nota": 43,
+    "reasoning_fake": 43
+  },
+  "valid": true
+}

@@ -37,6 +37,7 @@ Usage
 from __future__ import annotations
 
 import argparse
+import ast
 import json
 import logging
 import math
@@ -105,8 +106,18 @@ def _format_options(options: dict[str, str] | list[str] | None) -> str:
     """
     if not options:
         return ""
+    if isinstance(options, str):
+        try:
+            options = ast.literal_eval(options)
+        except (ValueError, SyntaxError):
+            logger.warning("Could not parse Med-HALT options: %s", options[:100])
+            return ""
     if isinstance(options, dict):
-        lines = [f"{k}) {v}" for k, v in sorted(options.items())]
+        numeric_items = sorted(
+            ((int(str(k)), str(v)) for k, v in options.items() if str(k).isdigit()),
+            key=lambda item: item[0],
+        )
+        lines = [f"{chr(65 + idx)}) {text}" for idx, (_, text) in enumerate(numeric_items)]
     else:
         lines = [f"{chr(65 + i)}) {opt}" for i, opt in enumerate(options)]
     return "Options:\n" + "\n".join(lines) + "\n\n"
