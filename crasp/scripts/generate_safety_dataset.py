@@ -47,6 +47,12 @@ from typing import Any
 
 from datasets import load_from_disk, Dataset, concatenate_datasets
 
+from crasp_v2.data.medhalt import (
+    build_safety_prompt as _build_v2_safety_prompt,
+    build_safety_record as _build_v2_safety_record,
+    validate_safety_records,
+)
+
 # ── Prompt template (swap by editing this constant) ──────────────────────────
 
 SAFETY_TEMPLATE: str = """\
@@ -164,16 +170,7 @@ def build_safety_prompt(example: dict[str, Any]) -> str:
     -------
     A fully formatted safety prompt string.
     """
-    context, question, options_block, answer = _extract_fields(example)
-
-    context_block = f"Clinical context:\n{context}\n\n" if context else ""
-
-    return SAFETY_TEMPLATE.format(
-        context_block=context_block,
-        question=question,
-        options_block=options_block,
-        answer=answer,
-    )
+    return _build_v2_safety_prompt(example, task_type=str(example.get("task_type", "")))
 
 
 def _infer_expected_label(example: dict[str, Any], task_type: str) -> str:
@@ -195,11 +192,7 @@ def _infer_expected_label(example: dict[str, Any], task_type: str) -> str:
     -------
     A short label string.
     """
-    raw = example.get("answer", example.get("output", example.get("label", "")))
-    if raw:
-        return str(raw).strip()
-    # Fallback: annotate with task type so downstream can infer
-    return f"[{task_type}]"
+    return str(_build_v2_safety_record(0, task_type, example).get("target", ""))
 
 
 # ── Dataset loading ───────────────────────────────────────────────────────────
@@ -357,20 +350,14 @@ def build_calibration_records(
     """
     records = []
     for i, (task_type, example) in enumerate(samples):
-        records.append(
-            {
-                "id": i,
-                "prompt": build_safety_prompt(example),
-                "task_type": task_type,
-                "original_sample": {
-                    k: v
-                    for k, v in example.items()
-                    # Omit heavy embedding fields if present
-                    if not isinstance(v, list) or len(v) < 50
-                },
-                "expected_label": _infer_expected_label(example, task_type),
-            }
-        )
+        record = _build_v2_safety_record(i, task_type, example)
+        record["original_sample"] = {
+            k: v
+            for k, v in example.items()
+            # Omit heavy embedding fields if present
+            if not isinstance(v, list) or len(v) < 50
+        }
+        records.append(record)
     return records
 
 
@@ -450,6 +437,10 @@ def generate(
     samples = balanced_sample(loaded, num_samples, seed)
     records = build_calibration_records(samples)
     save_jsonl(records, output_path)
+    validation = validate_safety_records(records)
+    validation_path = output_path.with_suffix(".validation.json")
+    validation_path.write_text(json.dumps(validation, indent=2), encoding="utf-8")
+    logger.info("Validation written to %s (valid=%s)", validation_path, validation["valid"])
     log_sequence_stats(records)
 
     return records

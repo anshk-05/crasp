@@ -42,6 +42,7 @@ from datasets import load_from_disk
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+from crasp_v2.eval.helpers import bootstrap_mean_ci, prediction_diagnostics
 from src.metrics import (
     CRASPMetrics,
     RetentionReport,
@@ -418,6 +419,44 @@ class CRASPEvaluator:
         )
         return decoded
 
+    def _model_device(self):
+        try:
+            return next(self.model.parameters()).device
+        except StopIteration:
+            return torch.device(self.device)
+
+    @torch.no_grad()
+    def _choice_loglikelihood(self, prompt: str, choice: str) -> float:
+        """Score one answer choice as a continuation of the prompt."""
+        continuation = " " + choice
+        prompt_ids = self.tokenizer(prompt, add_special_tokens=False).input_ids
+        choice_ids = self.tokenizer(continuation, add_special_tokens=False).input_ids
+        max_prompt_tokens = max(1, self.max_length - len(choice_ids))
+        prompt_ids = prompt_ids[-max_prompt_tokens:]
+        input_ids = torch.tensor([prompt_ids + choice_ids], device=self._model_device())
+        attention_mask = torch.ones_like(input_ids)
+
+        outputs = self.model(input_ids=input_ids, attention_mask=attention_mask)
+        logits = outputs.logits[:, :-1, :]
+        target_ids = input_ids[:, 1:]
+        label_mask = torch.zeros_like(target_ids, dtype=torch.bool)
+        label_mask[:, max(0, len(prompt_ids) - 1) :] = True
+
+        if not bool(label_mask.any()):
+            return float("-inf")
+        log_probs = logits.log_softmax(dim=-1)
+        token_scores = log_probs.gather(-1, target_ids.unsqueeze(-1)).squeeze(-1)
+        return float(token_scores[label_mask].mean().item())
+
+    @torch.no_grad()
+    def _choose_by_loglikelihood(self, prompt: str, valid_letters: list[str]) -> str:
+        """Pick the letter with highest deterministic continuation likelihood."""
+        scores = {
+            letter: self._choice_loglikelihood(prompt, f"{letter})")
+            for letter in valid_letters
+        }
+        return max(scores, key=scores.get)
+
     def _build_medqa_prompt(self, row: dict) -> str:
         """Format a MedQA dataset row into a full prompt string.
 
@@ -462,6 +501,7 @@ class CRASPEvaluator:
     def evaluate_medqa(
         self,
         num_samples: Optional[int] = None,
+        scoring: str = "loglikelihood",
     ) -> dict:
         """Evaluate the model on the MedQA USMLE-4 benchmark.
 
@@ -485,6 +525,9 @@ class CRASPEvaluator:
             ``"ground_truth"``
                 List of correct answer letters.
         """
+        if scoring == "loglikelihood":
+            return self._evaluate_medqa_direct(num_samples, scoring=scoring)
+
         # ── Attempt lm-eval path ───────────────────────────────────────────────
         try:
             from lm_eval import simple_evaluate
@@ -523,12 +566,13 @@ class CRASPEvaluator:
                 exc,
             )
 
-        return self._evaluate_medqa_direct(num_samples)
+        return self._evaluate_medqa_direct(num_samples, scoring=scoring)
 
     @torch.no_grad()
     def _evaluate_medqa_direct(
         self,
         num_samples: Optional[int] = None,
+        scoring: str = "loglikelihood",
     ) -> dict:
         """Direct MedQA evaluation against locally stored Arrow files.
 
@@ -574,19 +618,28 @@ class CRASPEvaluator:
             dynamic_ncols=True,
         )
 
-        for batch_start in range(0, n_total, self.batch_size):
-            batch_prompts = prompts[batch_start : batch_start + self.batch_size]
-            raw_outputs = self._generate_batch_answers(batch_prompts, max_new_tokens=10)
+        if scoring == "loglikelihood":
+            for idx, prompt in enumerate(prompts):
+                predictions.append(self._choose_by_loglikelihood(prompt, ANSWER_LETTERS[:4]))
+                elapsed = time.time() - start_time
+                samples_done = idx + 1
+                throughput = samples_done / elapsed if elapsed > 0 else 0.0
+                pbar.set_postfix({"samples/s": f"{throughput:.1f}"})
+                pbar.update(1)
+        else:
+            for batch_start in range(0, n_total, self.batch_size):
+                batch_prompts = prompts[batch_start : batch_start + self.batch_size]
+                raw_outputs = self._generate_batch_answers(batch_prompts, max_new_tokens=10)
 
-            for raw in raw_outputs:
-                letter = _extract_answer_letter(raw, valid_letters)
-                predictions.append(letter if letter is not None else "X")
+                for raw in raw_outputs:
+                    letter = _extract_answer_letter(raw, valid_letters)
+                    predictions.append(letter if letter is not None else "X")
 
-            elapsed = time.time() - start_time
-            samples_done = min(batch_start + self.batch_size, n_total)
-            throughput = samples_done / elapsed if elapsed > 0 else 0.0
-            pbar.set_postfix({"samples/s": f"{throughput:.1f}"})
-            pbar.update(len(batch_prompts))
+                elapsed = time.time() - start_time
+                samples_done = min(batch_start + self.batch_size, n_total)
+                throughput = samples_done / elapsed if elapsed > 0 else 0.0
+                pbar.set_postfix({"samples/s": f"{throughput:.1f}"})
+                pbar.update(len(batch_prompts))
 
         pbar.close()
 
@@ -602,12 +655,18 @@ class CRASPEvaluator:
             "num_samples": n_total,
             "predictions": predictions,
             "ground_truth": ground_truth,
+            "scoring": scoring,
+            "diagnostics": prediction_diagnostics(predictions, valid_letters),
+            "confidence_interval": bootstrap_mean_ci(
+                [pred == truth for pred, truth in zip(predictions, ground_truth)]
+            ),
         }
 
     @torch.no_grad()
     def evaluate_medhalt(
         self,
         num_samples: Optional[int] = None,
+        scoring: str = "loglikelihood",
     ) -> dict:
         """Evaluate the model on Med-HALT reasoning hallucination tasks.
 
@@ -744,28 +803,57 @@ class CRASPEvaluator:
             dynamic_ncols=True,
         )
 
-        for batch_start in range(0, n_total, self.batch_size):
-            batch_end = min(batch_start + self.batch_size, n_total)
-            batch_prompts = prompts[batch_start:batch_end]
-            raw_outputs = self._generate_batch_answers(batch_prompts, max_new_tokens=10)
+        if scoring == "loglikelihood":
+            for idx, prompt in enumerate(prompts):
+                choices = sorted(valid_letters_per_sample[idx])
+                predictions.append(self._choose_by_loglikelihood(prompt, choices))
+                elapsed = time.time() - start_time
+                samples_done = idx + 1
+                throughput = samples_done / elapsed if elapsed > 0 else 0.0
+                pbar.set_postfix({"samples/s": f"{throughput:.1f}"})
+                pbar.update(1)
+        else:
+            for batch_start in range(0, n_total, self.batch_size):
+                batch_end = min(batch_start + self.batch_size, n_total)
+                batch_prompts = prompts[batch_start:batch_end]
+                raw_outputs = self._generate_batch_answers(batch_prompts, max_new_tokens=10)
 
-            for i, raw in enumerate(raw_outputs):
-                sample_idx = batch_start + i
-                valid = valid_letters_per_sample[sample_idx]
-                letter = _extract_answer_letter(raw, valid)
-                predictions.append(letter if letter is not None else "X")
+                for i, raw in enumerate(raw_outputs):
+                    sample_idx = batch_start + i
+                    valid = valid_letters_per_sample[sample_idx]
+                    letter = _extract_answer_letter(raw, valid)
+                    predictions.append(letter if letter is not None else "X")
 
-            elapsed = time.time() - start_time
-            samples_done = batch_end
-            throughput = samples_done / elapsed if elapsed > 0 else 0.0
-            pbar.set_postfix({"samples/s": f"{throughput:.1f}"})
-            pbar.update(len(batch_prompts))
+                elapsed = time.time() - start_time
+                samples_done = batch_end
+                throughput = samples_done / elapsed if elapsed > 0 else 0.0
+                pbar.set_postfix({"samples/s": f"{throughput:.1f}"})
+                pbar.update(len(batch_prompts))
 
         pbar.close()
 
         # ── Compute metrics ────────────────────────────────────────────────────
         breakdown = safety_score(predictions, all_ground_truth, all_task_types)
         macro_avg = breakdown["macro_avg"]
+        per_task: dict[str, dict[str, float | int]] = {}
+        for task_type in sorted(set(all_task_types)):
+            indices = [idx for idx, current in enumerate(all_task_types) if current == task_type]
+            correct = [
+                predictions[idx].strip().upper() == all_ground_truth[idx].strip().upper()
+                for idx in indices
+            ]
+            per_task[task_type] = {
+                "num_samples": len(indices),
+                "accuracy": sum(correct) / len(correct) if correct else 0.0,
+            }
+        all_valid_letters = set().union(*valid_letters_per_sample) if valid_letters_per_sample else set()
+        diagnostics = prediction_diagnostics(predictions, all_valid_letters)
+        invalid_by_sample = sum(
+            prediction not in valid
+            for prediction, valid in zip(predictions, valid_letters_per_sample)
+        )
+        diagnostics["invalid_prediction_rate"] = invalid_by_sample / n_total if n_total else 0.0
+        diagnostics["invalid_predictions"] = invalid_by_sample
 
         logger.info(
             "Med-HALT eval — macro safety score: %.4f  "
@@ -778,10 +866,17 @@ class CRASPEvaluator:
         return {
             "safety_score": macro_avg,
             "safety_breakdown": breakdown,
+            "safety_scope": "medhalt_reasoning_hallucination_only",
+            "per_task": per_task,
             "num_samples": n_total,
             "predictions": predictions,
             "ground_truth": all_ground_truth,
             "task_types": all_task_types,
+            "scoring": scoring,
+            "diagnostics": diagnostics,
+            "confidence_interval": bootstrap_mean_ci(
+                [pred == truth for pred, truth in zip(predictions, all_ground_truth)]
+            ),
         }
 
     @staticmethod
@@ -806,7 +901,7 @@ class CRASPEvaluator:
         return options[-1][0] if options else "A"
 
     @torch.no_grad()
-    def evaluate_all(self) -> CRASPMetrics:
+    def evaluate_all(self, scoring: str = "loglikelihood") -> CRASPMetrics:
         """Run both MedQA and Med-HALT evaluations and return bundled metrics.
 
         Logs a human-readable summary table to the console on completion.
@@ -820,8 +915,8 @@ class CRASPEvaluator:
         logger.info("Starting full evaluation for: %s", self.model_name_or_path)
         logger.info("=" * 60)
 
-        medqa_results = self.evaluate_medqa()
-        medhalt_results = self.evaluate_medhalt()
+        medqa_results = self.evaluate_medqa(scoring=scoring)
+        medhalt_results = self.evaluate_medhalt(scoring=scoring)
 
         metrics = CRASPMetrics(
             clinical_accuracy=medqa_results["clinical_accuracy"],

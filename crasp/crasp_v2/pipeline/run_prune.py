@@ -26,6 +26,62 @@ def _passes_thresholds(metrics: dict[str, Any], config: dict[str, Any]) -> bool:
     )
 
 
+def _mean_retention(metrics: dict[str, Any]) -> float:
+    retention = metrics.get("retention") or {}
+    return float(retention.get("mean_retention", 0.0))
+
+
+def _effective_sparsity(pruned_heads: int, total_heads: int) -> float:
+    return pruned_heads / total_heads if total_heads else 0.0
+
+
+def build_candidate_schedule(
+    total_heads: int,
+    target_sparsities: list[float],
+    step_fraction: float,
+) -> list[dict[str, int | float]]:
+    """Build monotonically advancing pruning candidates for all target sparsities."""
+    if total_heads <= 0:
+        return []
+    step_heads = max(1, int(total_heads * step_fraction))
+    candidate_count = 0
+    candidates: list[dict[str, int | float]] = []
+    for target_sparsity in target_sparsities:
+        target_pruned = int(total_heads * float(target_sparsity))
+        while candidate_count < target_pruned:
+            candidate_count = min(candidate_count + step_heads, target_pruned)
+            candidates.append(
+                {
+                    "candidate_id": len(candidates),
+                    "target_sparsity": float(target_sparsity),
+                    "pruned_heads": candidate_count,
+                    "effective_head_sparsity": _effective_sparsity(candidate_count, total_heads),
+                }
+            )
+    return candidates
+
+
+def select_final_candidate(iteration_rows: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """Select the highest-sparsity candidate that passed both retention gates."""
+    accepted = [row for row in iteration_rows if row.get("accepted")]
+    if not accepted:
+        return None
+    return max(
+        accepted,
+        key=lambda row: (
+            int(row.get("pruned_heads", 0)),
+            _mean_retention(row.get("metrics", {})),
+        ),
+    )
+
+
+def _threshold_summary(pruning_cfg: dict[str, Any]) -> dict[str, float]:
+    return {
+        "clinical_retention_threshold": float(pruning_cfg["clinical_retention_threshold"]),
+        "safety_retention_threshold": float(pruning_cfg["safety_retention_threshold"]),
+    }
+
+
 def run(args: argparse.Namespace) -> Path:
     import json
 
@@ -49,59 +105,72 @@ def run(args: argparse.Namespace) -> Path:
         for layer_name, num_heads in saliency_report["total_heads_per_layer"].items()
     }
     total_heads = sum(total_heads_per_layer.values())
-    step_heads = max(1, int(total_heads * float(pruning_cfg["step_fraction"])))
+    candidate_schedule = build_candidate_schedule(
+        total_heads=total_heads,
+        target_sparsities=[float(value) for value in pruning_cfg["target_sparsities"]],
+        step_fraction=float(pruning_cfg["step_fraction"]),
+    )
 
     output_dir = ensure_dir(args.output_dir)
     iteration_rows: list[dict[str, Any]] = []
-    best_metrics: dict[str, Any] | None = None
-    best_pruned_heads: list[dict[str, Any]] = []
-    violations = 0
+    last_metrics: dict[str, Any] | None = None
 
     try:
-        for target_sparsity in pruning_cfg["target_sparsities"]:
-            target_pruned = int(total_heads * float(target_sparsity))
-            while len(best_pruned_heads) < target_pruned:
-                current_pruned = ranked_heads[: min(len(best_pruned_heads) + step_heads, target_pruned)]
-                layer_masks = build_layer_mask_map(total_heads_per_layer, current_pruned)
-                current_masker = AttentionHeadMasker(model, layer_masks)
-                current_masker.apply()
-                try:
-                    metrics = evaluate_loaded_model(
-                        model=model,
-                        tokenizer=tokenizer,
-                        model_name=resolved_model_name,
-                        device=str(config["model"].get("device", "cuda")),
-                        batch_size=int(config["eval"].get("batch_size", 8)),
-                        max_length=int(config["model"].get("max_seq_len", 2048)),
-                        num_samples=config["eval"].get("num_samples"),
-                    )
-                    metrics = attach_retention(metrics, baseline_metrics)
-                finally:
-                    current_masker.remove()
+        for candidate in candidate_schedule:
+            current_pruned = ranked_heads[: int(candidate["pruned_heads"])]
+            layer_masks = build_layer_mask_map(total_heads_per_layer, current_pruned)
+            current_masker = AttentionHeadMasker(model, layer_masks)
+            current_masker.apply()
+            try:
+                metrics = evaluate_loaded_model(
+                    model=model,
+                    tokenizer=tokenizer,
+                    model_name=resolved_model_name,
+                    device=str(config["model"].get("device", "cuda")),
+                    batch_size=int(config["eval"].get("batch_size", 8)),
+                    max_length=int(config["model"].get("max_seq_len", 2048)),
+                    num_samples=config["eval"].get("num_samples"),
+                    scoring=str(config["eval"].get("scoring", "loglikelihood")),
+                )
+                metrics = attach_retention(metrics, baseline_metrics)
+            finally:
+                current_masker.remove()
 
-                row = {
-                    "target_sparsity": target_sparsity,
-                    "pruned_heads": len(current_pruned),
-                    "metrics": metrics,
-                }
-                iteration_rows.append(row)
-                if _passes_thresholds(metrics, pruning_cfg):
-                    best_metrics = metrics
-                    best_pruned_heads = list(current_pruned)
-                    violations = 0
-                else:
-                    violations += 1
-                    if violations >= int(pruning_cfg["early_stop_patience"]):
-                        break
-            if violations >= int(pruning_cfg["early_stop_patience"]):
-                break
+            passes_thresholds = _passes_thresholds(metrics, pruning_cfg)
+            row = {
+                **candidate,
+                "passes_thresholds": passes_thresholds,
+                "accepted": passes_thresholds,
+                "metrics": metrics,
+            }
+            iteration_rows.append(row)
+            last_metrics = metrics
 
-        final_masks = build_layer_mask_map(total_heads_per_layer, best_pruned_heads)
+        selected = select_final_candidate(iteration_rows)
+        selected_heads = ranked_heads[: int(selected["pruned_heads"])] if selected else []
+        selected_metrics = selected["metrics"] if selected else None
+        final_masks = build_layer_mask_map(total_heads_per_layer, selected_heads)
         mask_path = serialize_json(final_masks, output_dir / "mask.json")
-        metrics_path = serialize_json(best_metrics or baseline_metrics, output_dir / "metrics.json")
-        serialize_json({"iterations": iteration_rows}, output_dir / "pruning_iterations.json")
+        metrics_payload: dict[str, Any] = selected_metrics or {
+            "status": "no_accepted_candidate",
+            "baseline_metrics": baseline_metrics,
+            "last_evaluated_metrics": last_metrics,
+        }
+        metrics_path = serialize_json(metrics_payload, output_dir / "metrics.json")
+        serialize_json(
+            {
+                "selection_policy": "highest_sparsity_passing_dual_retention_gate",
+                "thresholds": _threshold_summary(pruning_cfg),
+                "accepted_candidate_id": selected.get("candidate_id") if selected else None,
+                "accepted_pruned_heads": len(selected_heads),
+                "accepted_effective_head_sparsity": _effective_sparsity(len(selected_heads), total_heads),
+                "status": "accepted" if selected else "no_accepted_candidate",
+                "iterations": iteration_rows,
+            },
+            output_dir / "pruning_iterations.json",
+        )
         artifact = PhaseArtifact.create(
-            phase="post_prune",
+            phase="post_prune" if selected else "post_prune_failed",
             model_name=resolved_model_name,
             base_model=config["model"]["name"],
             parent=args.stage,
@@ -109,8 +178,13 @@ def run(args: argparse.Namespace) -> Path:
             metrics_path=str(metrics_path),
             extra={
                 "saliency_report": str(args.saliency_report),
-                "pruned_heads": len(best_pruned_heads),
+                "selection_policy": "highest_sparsity_passing_dual_retention_gate",
+                "thresholds": _threshold_summary(pruning_cfg),
+                "accepted": selected is not None,
+                "pruned_heads": len(selected_heads),
                 "total_heads": total_heads,
+                "effective_head_sparsity": _effective_sparsity(len(selected_heads), total_heads),
+                "accepted_candidate_id": selected.get("candidate_id") if selected else None,
             },
         )
         save_phase_artifact(artifact, output_dir)

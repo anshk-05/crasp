@@ -23,6 +23,7 @@ def evaluate_loaded_model(
     batch_size: int,
     max_length: int,
     num_samples: int | None = None,
+    scoring: str = "loglikelihood",
 ) -> dict[str, Any]:
     """Evaluate an already loaded model using the legacy evaluator."""
     from src.eval_harness import CRASPEvaluator  # type: ignore[import]
@@ -36,12 +37,8 @@ def evaluate_loaded_model(
         batch_size=batch_size,
         max_length=max_length,
     )
-    if num_samples is None:
-        metrics = evaluator.evaluate_all()
-        return asdict(metrics)
-
-    medqa_result = evaluator.evaluate_medqa(num_samples=num_samples)
-    medhalt_result = evaluator.evaluate_medhalt(num_samples=num_samples)
+    medqa_result = evaluator.evaluate_medqa(num_samples=num_samples, scoring=scoring)
+    medhalt_result = evaluator.evaluate_medhalt(num_samples=num_samples, scoring=scoring)
     metrics = CRASPMetrics(
         clinical_accuracy=medqa_result["clinical_accuracy"],
         safety_score=medhalt_result["safety_score"],
@@ -50,7 +47,27 @@ def evaluate_loaded_model(
         model_name=model_name,
         sparsity=0.0,
     )
-    return asdict(metrics)
+    payload = asdict(metrics)
+    payload["eval_details"] = {
+        "scoring": scoring,
+        "medqa": {
+            "num_samples": medqa_result.get("num_samples"),
+            "diagnostics": medqa_result.get("diagnostics", {}),
+            "confidence_interval": medqa_result.get("confidence_interval", {}),
+        },
+        "medhalt": {
+            "scope": medhalt_result.get("safety_scope"),
+            "num_samples": medhalt_result.get("num_samples"),
+            "per_task": medhalt_result.get("per_task", {}),
+            "diagnostics": medhalt_result.get("diagnostics", {}),
+            "confidence_interval": medhalt_result.get("confidence_interval", {}),
+        },
+    }
+    payload["confidence_intervals"] = {
+        "clinical_accuracy": medqa_result.get("confidence_interval", {}),
+        "safety_score": medhalt_result.get("confidence_interval", {}),
+    }
+    return payload
 
 
 def attach_retention(metrics: dict[str, Any], baseline: dict[str, Any]) -> dict[str, Any]:

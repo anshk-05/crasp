@@ -49,6 +49,7 @@ def run(args: argparse.Namespace) -> Path:
             batch_size=int(config["eval"].get("batch_size", 8)),
             max_length=int(config["model"].get("max_seq_len", 2048)),
             num_samples=config["eval"].get("num_samples"),
+            scoring=str(config["eval"].get("scoring", "loglikelihood")),
         )
 
         baseline_path = _resolve_metrics_path(args.baseline_metrics or config.get("artifacts", {}).get("baseline_metrics"))

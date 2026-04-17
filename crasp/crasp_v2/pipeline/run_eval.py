@@ -25,6 +25,7 @@ def run(args: argparse.Namespace) -> Path:
             batch_size=int(config["eval"].get("batch_size", 8)),
             max_length=int(config["model"].get("max_seq_len", 2048)),
             num_samples=config["eval"].get("num_samples"),
+            scoring=str(config["eval"].get("scoring", "loglikelihood")),
         )
         if args.baseline_metrics:
             metrics = attach_retention(metrics, load_baseline_metrics(Path(args.baseline_metrics)))

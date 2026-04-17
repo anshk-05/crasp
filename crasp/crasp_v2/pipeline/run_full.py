@@ -7,8 +7,9 @@ import json
 from pathlib import Path
 
 from crasp_v2.pipeline import build_calibration, capture_saliency, run_prune, run_recovery, run_sft
+from crasp_v2.pipeline.artifacts import load_phase_artifact
 from crasp_v2.pipeline.common import load_config_bundle, serialize_json
-from crasp_v2.pipeline.reporting import build_comparison_rows, render_markdown_table
+from crasp_v2.pipeline.reporting import build_comparison_rows, render_markdown_table, render_run_report
 
 
 def run(args: argparse.Namespace) -> Path:
@@ -50,31 +51,46 @@ def run(args: argparse.Namespace) -> Path:
             output_dir=args.checkpoint_root / "post_prune",
         )
     )
-    recovery_dir = run_recovery.run(
-        argparse.Namespace(
-            config=args.config,
-            stage=str(prune_dir),
-            mixed_sft_path=args.calibration_dir / "mixed_sft.jsonl",
-            baseline_metrics=args.baseline_metrics,
-            output_dir=args.checkpoint_root / "post_recovery",
+    prune_artifact = load_phase_artifact(Path(prune_dir) / "phase_artifact.json")
+    recovery_dir = None
+    final_metrics_path = Path(prune_dir) / "metrics.json"
+    if prune_artifact.phase == "post_prune" and prune_artifact.extra.get("accepted"):
+        recovery_dir = run_recovery.run(
+            argparse.Namespace(
+                config=args.config,
+                stage=str(prune_dir),
+                mixed_sft_path=args.calibration_dir / "mixed_sft.jsonl",
+                baseline_metrics=args.baseline_metrics,
+                output_dir=args.checkpoint_root / "post_recovery",
+            )
         )
-    )
+        final_metrics_path = Path(recovery_dir) / "metrics.json"
 
-    final_metrics = Path(recovery_dir) / "metrics.json"
-    rows = build_comparison_rows(args.repo_results_root, json.loads(final_metrics.read_text(encoding="utf-8")))
+    final_metrics = json.loads(final_metrics_path.read_text(encoding="utf-8"))
+    rows = []
+    if prune_artifact.extra.get("accepted"):
+        rows = build_comparison_rows(
+            args.repo_results_root,
+            final_metrics,
+            crasp_effective_head_sparsity=float(prune_artifact.extra.get("effective_head_sparsity", 0.0)),
+        )
     markdown = render_markdown_table(rows)
-    comparison_path = serialize_json(
-        {
-            "calibration_manifest": str(calibration_manifest),
-            "post_sft": str(sft_dir),
-            "saliency_report": str(saliency_report),
-            "post_prune": str(prune_dir),
-            "post_recovery": str(recovery_dir),
-            "comparison_rows": rows,
-            "comparison_markdown": markdown,
-        },
-        args.results_root / "full_run_summary.json",
-    )
+    summary = {
+        "status": "completed" if prune_artifact.extra.get("accepted") else "diagnostics_only",
+        "calibration_manifest": str(calibration_manifest),
+        "post_sft": str(sft_dir),
+        "saliency_report": str(saliency_report),
+        "post_prune": str(prune_dir),
+        "post_prune_status": "accepted" if prune_artifact.extra.get("accepted") else "no_accepted_candidate",
+        "post_recovery": str(recovery_dir) if recovery_dir else None,
+        "effective_head_sparsity": prune_artifact.extra.get("effective_head_sparsity"),
+        "comparison_rows": rows,
+        "comparison_markdown": markdown,
+    }
+    comparison_path = serialize_json(summary, args.results_root / "full_run_summary.json")
+    report_path = args.results_root / "REPORT.md"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(render_run_report(summary), encoding="utf-8")
     print(markdown)
     return comparison_path
 

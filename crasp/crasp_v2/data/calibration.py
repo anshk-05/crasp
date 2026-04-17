@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from .io import load_jsonl, save_jsonl
-from .medhalt import build_safety_prompt, validate_safety_records
+from .medhalt import build_safety_record, validate_safety_records
 from .medqa import build_cot_prompt, build_plain_prompt
 
 logger = logging.getLogger(__name__)
@@ -151,17 +151,11 @@ def build_safety_records(
     sampled = sampled[:num_samples]
 
     records = [
-        {
-            "id": idx,
-            "task_type": task_type,
-            "source": "medhalt",
-            "prompt": build_safety_prompt(example),
-            "original_sample": example,
-            "expected_label": str(
-                example.get("answer", example.get("output", example.get("label", f"[{task_type}]")))
-            ).strip()
-            or f"[{task_type}]",
-        }
+        build_safety_record(
+            record_id=idx,
+            task_type=task_type,
+            example=example,
+        )
         for idx, (task_type, example) in enumerate(sampled)
     ]
     save_jsonl(records, output_path)
