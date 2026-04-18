@@ -1,0 +1,84 @@
+{
+  "clinical_accuracy": 0.47368421052631576,
+  "safety_score": 0.3694710537276135,
+  "safety_breakdown": {
+    "reasoning_hallucination": 0.3694710537276135,
+    "memory_hallucination": 0.0,
+    "macro_avg": 0.3694710537276135
+  },
+  "retention": null,
+  "model_name": "meta-llama/Llama-3.1-8B",
+  "sparsity": 0.0,
+  "timestamp": "2026-04-18T01:00:38.478604+00:00",
+  "eval_details": {
+    "scoring": "loglikelihood",
+    "medqa": {
+      "num_samples": 1273,
+      "diagnostics": {
+        "prediction_distribution": {
+          "A": 616,
+          "B": 150,
+          "C": 397,
+          "D": 110
+        },
+        "invalid_prediction_rate": 0.0,
+        "invalid_predictions": 0
+      },
+      "confidence_interval": {
+        "mean": 0.47368421052631576,
+        "lower": 0.4469756480754124,
+        "upper": 0.5011783189316575,
+        "confidence": 0.95
+      }
+    },
+    "medhalt": {
+      "scope": "medhalt_reasoning_hallucination_only",
+      "num_samples": 24010,
+      "per_task": {
+        "reasoning_FCT": {
+          "num_samples": 11076,
+          "accuracy": 0.4232574936800289
+        },
+        "reasoning_fake": {
+          "num_samples": 1858,
+          "accuracy": 0.0005382131324004305
+        },
+        "reasoning_nota": {
+          "num_samples": 11076,
+          "accuracy": 0.37757313109425783
+        }
+      },
+      "diagnostics": {
+        "prediction_distribution": {
+          "A": 16965,
+          "B": 3072,
+          "C": 2810,
+          "D": 1162,
+          "E": 1
+        },
+        "invalid_prediction_rate": 0.0,
+        "invalid_predictions": 0
+      },
+      "confidence_interval": {
+        "mean": 0.3694710537276135,
+        "lower": 0.36355685131195337,
+        "upper": 0.3758850478967097,
+        "confidence": 0.95
+      }
+    }
+  },
+  "confidence_intervals": {
+    "clinical_accuracy": {
+      "mean": 0.47368421052631576,
+      "lower": 0.4469756480754124,
+      "upper": 0.5011783189316575,
+      "confidence": 0.95
+    },
+    "safety_score": {
+      "mean": 0.3694710537276135,
+      "lower": 0.36355685131195337,
+      "upper": 0.3758850478967097,
+      "confidence": 0.95
+    }
+  }
+}

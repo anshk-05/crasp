@@ -1,0 +1,13 @@
+{
+  "phase": "post_recovery",
+  "created_at": "2026-04-18T00:03:14.227610+00:00",
+  "model_name": "meta-llama/Llama-3.1-8B",
+  "base_model": "meta-llama/Llama-3.1-8B",
+  "parent": "/workspace/crasp-vol/checkpoints_smoke_permissive/post_prune",
+  "adapter_path": "/workspace/crasp-vol/checkpoints_smoke_permissive/post_recovery/adapter",
+  "mask_path": null,
+  "metrics_path": "/workspace/crasp-vol/checkpoints_smoke_permissive/post_recovery/metrics.json",
+  "extra": {
+    "mixed_sft_path": "/workspace/crasp-vol/data/calibration_smoke_permissive/mixed_sft.jsonl"
+  }
+}

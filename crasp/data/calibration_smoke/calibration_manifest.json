@@ -1,0 +1,35 @@
+{
+  "cot": {
+    "cot_path": "/workspace/crasp-vol/data/calibration_smoke/cot_calibration.jsonl",
+    "cot_records": 16,
+    "plain_path": "/workspace/crasp-vol/data/calibration_smoke/plain_calibration.jsonl",
+    "plain_records": 16
+  },
+  "safety": {
+    "safety_path": "/workspace/crasp-vol/data/calibration_smoke/safety_calibration.jsonl",
+    "validation_path": "/workspace/crasp-vol/data/calibration_smoke/safety_calibration.validation.json",
+    "total_records": 16,
+    "invalid_option_prompts": 0,
+    "invalid_prompt_ids": [],
+    "blank_target_prompts": 0,
+    "blank_target_prompt_ids": [],
+    "missing_target_fields": 0,
+    "missing_target_field_ids": [],
+    "missing_refusal_options": 0,
+    "missing_refusal_option_ids": [],
+    "malformed_options": 0,
+    "malformed_option_ids": [],
+    "placeholder_labels": 0,
+    "placeholder_label_ids": [],
+    "task_counts": {
+      "reasoning_fake": 5,
+      "reasoning_nota": 5,
+      "reasoning_FCT": 6
+    },
+    "valid": true
+  },
+  "mixed": {
+    "mixed_path": "/workspace/crasp-vol/data/calibration_smoke/mixed_sft.jsonl",
+    "mixed_records": 32
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "status": "completed",
+  "calibration_manifest": "/workspace/crasp-vol/data/calibration_smoke_permissive/calibration_manifest.json",
+  "post_sft": "/workspace/crasp-vol/checkpoints_smoke_permissive/post_sft",
+  "saliency_report": "/workspace/crasp-vol/results_smoke_permissive/crasp_v2/saliency/saliency_report.json",
+  "post_prune": "/workspace/crasp-vol/checkpoints_smoke_permissive/post_prune",
+  "post_prune_status": "accepted",
+  "post_recovery": "/workspace/crasp-vol/checkpoints_smoke_permissive/post_recovery",
+  "effective_head_sparsity": 0.25,
+  "comparison_rows": [
+    {
+      "method": "CRASP v2",
+      "sparsity": 0.25,
+      "sparsity_type": "effective_head_sparsity",
+      "clinical_accuracy": 0.0625,
+      "safety_score": 0.375,
+      "clinical_retention": 0.10510237780713343,
+      "safety_retention": 1.0,
+      "mean_retention": 0.5525511889035667,
+      "confidence_intervals": {
+        "clinical_accuracy": {
+          "mean": 0.0625,
+          "lower": 0.0,
+          "upper": 0.1875,
+          "confidence": 0.95
+        },
+        "safety_score": {
+          "mean": 0.375,
+          "lower": 0.125,
+          "upper": 0.625,
+          "confidence": 0.95
+        }
+      }
+    },
+    {
+      "method": "wanda",
+      "sparsity": 0.2,
+      "sparsity_type": "weight_sparsity",
+      "clinical_accuracy": 0.5828750981932443,
+      "safety_score": 0.0063723448563098705,
+      "clinical_retention": 0.978891820580475,
+      "safety_retention": 1.0,
+      "mean_retention": 0.9894459102902375
+    },
+    {
+      "method": "sparsegpt",
+      "sparsity": 0.3,
+      "sparsity_type": "weight_sparsity",
+      "clinical_accuracy": 0.5773762765121759,
+      "safety_score": 0.005414410662224073,
+      "clinical_retention": 0.9696569920844327,
+      "safety_retention": 1.0,
+      "mean_retention": 0.9848284960422163
+    }
+  ],
+  "comparison_markdown": "| Method | Sparsity | Clinical Acc | Safety | Clinical Ret | Safety Ret | Mean Ret |\n| --- | --- | --- | --- | --- | --- | --- |\n| CRASP v2 | 25.00% | 0.0625 | 0.3750 | 0.1051 | 1.0000 | 0.5526 |\n| wanda | 20.00% | 0.5829 | 0.0064 | 0.9789 | 1.0000 | 0.9894 |\n| sparsegpt | 30.00% | 0.5774 | 0.0054 | 0.9697 | 1.0000 | 0.9848 |"
+}

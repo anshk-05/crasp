@@ -1,0 +1,2544 @@
+{
+  "selection_policy": "highest_sparsity_passing_dual_retention_gate",
+  "thresholds": {
+    "clinical_retention_threshold": 0.8,
+    "safety_retention_threshold": 0.8
+  },
+  "accepted_candidate_id": null,
+  "accepted_pruned_heads": 0,
+  "accepted_effective_head_sparsity": 0.0,
+  "status": "no_accepted_candidate",
+  "iterations": [
+    {
+      "candidate_id": 0,
+      "target_sparsity": 0.05,
+      "pruned_heads": 10,
+      "effective_head_sparsity": 0.009765625,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.375,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.6306142668428005,
+          "safety_retention": 1.0,
+          "mean_retention": 0.8153071334214003
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:44:50.050780+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 8,
+                "B": 5,
+                "C": 2,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.375,
+              "lower": 0.125,
+              "upper": 0.625,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 14,
+                "B": 1,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.375,
+            "lower": 0.125,
+            "upper": 0.625,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 1,
+      "target_sparsity": 0.05,
+      "pruned_heads": 20,
+      "effective_head_sparsity": 0.01953125,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.375,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.6306142668428005,
+          "safety_retention": 1.0,
+          "mean_retention": 0.8153071334214003
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:44:57.994021+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 7,
+                "B": 6,
+                "C": 1,
+                "D": 2
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.375,
+              "lower": 0.125,
+              "upper": 0.625,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 14,
+                "B": 1,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.375,
+            "lower": 0.125,
+            "upper": 0.625,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 2,
+      "target_sparsity": 0.05,
+      "pruned_heads": 30,
+      "effective_head_sparsity": 0.029296875,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.375,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.6306142668428005,
+          "safety_retention": 1.0,
+          "mean_retention": 0.8153071334214003
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:45:05.941046+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 6,
+                "B": 6,
+                "C": 1,
+                "D": 3
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.375,
+              "lower": 0.125,
+              "upper": 0.625,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 14,
+                "B": 1,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.375,
+            "lower": 0.125,
+            "upper": 0.625,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 3,
+      "target_sparsity": 0.05,
+      "pruned_heads": 40,
+      "effective_head_sparsity": 0.0390625,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.375,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.6306142668428005,
+          "safety_retention": 1.0,
+          "mean_retention": 0.8153071334214003
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:45:13.848128+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 8,
+                "B": 5,
+                "C": 2,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.375,
+              "lower": 0.125,
+              "upper": 0.625,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 14,
+                "B": 1,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.375,
+            "lower": 0.125,
+            "upper": 0.625,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 4,
+      "target_sparsity": 0.05,
+      "pruned_heads": 50,
+      "effective_head_sparsity": 0.048828125,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.375,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.6306142668428005,
+          "safety_retention": 1.0,
+          "mean_retention": 0.8153071334214003
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:45:21.742353+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 8,
+                "B": 5,
+                "C": 2,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.375,
+              "lower": 0.125,
+              "upper": 0.625,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 14,
+                "B": 1,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.375,
+            "lower": 0.125,
+            "upper": 0.625,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 5,
+      "target_sparsity": 0.05,
+      "pruned_heads": 51,
+      "effective_head_sparsity": 0.0498046875,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.3125,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.5255118890356671,
+          "safety_retention": 1.0,
+          "mean_retention": 0.7627559445178336
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:45:29.475894+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 8,
+                "B": 5,
+                "C": 2,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.3125,
+              "lower": 0.125,
+              "upper": 0.5625,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 14,
+                "B": 1,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.3125,
+            "lower": 0.125,
+            "upper": 0.5625,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 6,
+      "target_sparsity": 0.1,
+      "pruned_heads": 61,
+      "effective_head_sparsity": 0.0595703125,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.25,
+        "safety_score": 0.5,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.5,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.5
+        },
+        "retention": {
+          "clinical_retention": 0.4204095112285337,
+          "safety_retention": 1.0,
+          "mean_retention": 0.7102047556142669
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:45:37.429848+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 12,
+                "B": 3,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.25,
+              "lower": 0.0625,
+              "upper": 0.5,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.5
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 15,
+                "B": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.5,
+              "lower": 0.25,
+              "upper": 0.75,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.25,
+            "lower": 0.0625,
+            "upper": 0.5,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.5,
+            "lower": 0.25,
+            "upper": 0.75,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 7,
+      "target_sparsity": 0.1,
+      "pruned_heads": 71,
+      "effective_head_sparsity": 0.0693359375,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.25,
+        "safety_score": 0.5,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.5,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.5
+        },
+        "retention": {
+          "clinical_retention": 0.4204095112285337,
+          "safety_retention": 1.0,
+          "mean_retention": 0.7102047556142669
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:45:45.562164+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 11,
+                "B": 3,
+                "C": 1,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.25,
+              "lower": 0.0625,
+              "upper": 0.5,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.5
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 15,
+                "B": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.5,
+              "lower": 0.25,
+              "upper": 0.75,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.25,
+            "lower": 0.0625,
+            "upper": 0.5,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.5,
+            "lower": 0.25,
+            "upper": 0.75,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 8,
+      "target_sparsity": 0.1,
+      "pruned_heads": 81,
+      "effective_head_sparsity": 0.0791015625,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.1875,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.31530713342140027,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6576535667107002
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:45:53.629744+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 10,
+                "B": 2,
+                "C": 2,
+                "D": 2
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.1875,
+              "lower": 0.0,
+              "upper": 0.375,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 16
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.1875,
+            "lower": 0.0,
+            "upper": 0.375,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 9,
+      "target_sparsity": 0.1,
+      "pruned_heads": 91,
+      "effective_head_sparsity": 0.0888671875,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.0625,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.10510237780713343,
+          "safety_retention": 1.0,
+          "mean_retention": 0.5525511889035667
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:46:01.400649+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 12,
+                "C": 4
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.0625,
+              "lower": 0.0,
+              "upper": 0.1875,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 16
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.0625,
+            "lower": 0.0,
+            "upper": 0.1875,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 10,
+      "target_sparsity": 0.1,
+      "pruned_heads": 101,
+      "effective_head_sparsity": 0.0986328125,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.0625,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.10510237780713343,
+          "safety_retention": 1.0,
+          "mean_retention": 0.5525511889035667
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:46:09.332704+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 13,
+                "C": 3
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.0625,
+              "lower": 0.0,
+              "upper": 0.1875,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 16
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.0625,
+            "lower": 0.0,
+            "upper": 0.1875,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 11,
+      "target_sparsity": 0.1,
+      "pruned_heads": 102,
+      "effective_head_sparsity": 0.099609375,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.0625,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.10510237780713343,
+          "safety_retention": 1.0,
+          "mean_retention": 0.5525511889035667
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:46:17.043853+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 13,
+                "C": 3
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.0625,
+              "lower": 0.0,
+              "upper": 0.1875,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 16
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.0625,
+            "lower": 0.0,
+            "upper": 0.1875,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 12,
+      "target_sparsity": 0.15,
+      "pruned_heads": 112,
+      "effective_head_sparsity": 0.109375,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.125,
+        "safety_score": 0.5,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.5,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.5
+        },
+        "retention": {
+          "clinical_retention": 0.21020475561426685,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6051023778071334
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:46:24.720622+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 13,
+                "C": 3
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.125,
+              "lower": 0.0,
+              "upper": 0.3125,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.5
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 12,
+                "C": 1,
+                "D": 3
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.5,
+              "lower": 0.25,
+              "upper": 0.75,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.125,
+            "lower": 0.0,
+            "upper": 0.3125,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.5,
+            "lower": 0.25,
+            "upper": 0.75,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 13,
+      "target_sparsity": 0.15,
+      "pruned_heads": 122,
+      "effective_head_sparsity": 0.119140625,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.1875,
+        "safety_score": 0.375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.375
+        },
+        "retention": {
+          "clinical_retention": 0.31530713342140027,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6576535667107002
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:46:32.465505+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 7,
+                "B": 1,
+                "C": 8
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.1875,
+              "lower": 0.0,
+              "upper": 0.375,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 9,
+                "B": 1,
+                "D": 6
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.375,
+              "lower": 0.125,
+              "upper": 0.625,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.1875,
+            "lower": 0.0,
+            "upper": 0.375,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.375,
+            "lower": 0.125,
+            "upper": 0.625,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 14,
+      "target_sparsity": 0.15,
+      "pruned_heads": 132,
+      "effective_head_sparsity": 0.12890625,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.125,
+        "safety_score": 0.375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.375
+        },
+        "retention": {
+          "clinical_retention": 0.21020475561426685,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6051023778071334
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:46:40.662586+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 14,
+                "B": 1,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.125,
+              "lower": 0.0,
+              "upper": 0.3125,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 13,
+                "B": 1,
+                "C": 2
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.375,
+              "lower": 0.125,
+              "upper": 0.625,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.125,
+            "lower": 0.0,
+            "upper": 0.3125,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.375,
+            "lower": 0.125,
+            "upper": 0.625,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 15,
+      "target_sparsity": 0.15,
+      "pruned_heads": 142,
+      "effective_head_sparsity": 0.138671875,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.125,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.21020475561426685,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6051023778071334
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:46:48.624303+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 12,
+                "B": 2,
+                "C": 2
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.125,
+              "lower": 0.0,
+              "upper": 0.3125,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 12,
+                "B": 2,
+                "C": 2
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.125,
+            "lower": 0.0,
+            "upper": 0.3125,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 16,
+      "target_sparsity": 0.15,
+      "pruned_heads": 152,
+      "effective_head_sparsity": 0.1484375,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.25,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.4204095112285337,
+          "safety_retention": 1.0,
+          "mean_retention": 0.7102047556142669
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:46:56.698517+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 9,
+                "B": 1,
+                "C": 5,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.25,
+              "lower": 0.0625,
+              "upper": 0.4375,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 11,
+                "B": 3,
+                "C": 2
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.25,
+            "lower": 0.0625,
+            "upper": 0.4375,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 17,
+      "target_sparsity": 0.15,
+      "pruned_heads": 153,
+      "effective_head_sparsity": 0.1494140625,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.25,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.4204095112285337,
+          "safety_retention": 1.0,
+          "mean_retention": 0.7102047556142669
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:47:04.726874+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 9,
+                "B": 1,
+                "C": 5,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.25,
+              "lower": 0.0625,
+              "upper": 0.4375,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 11,
+                "B": 3,
+                "C": 2
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.25,
+            "lower": 0.0625,
+            "upper": 0.4375,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 18,
+      "target_sparsity": 0.2,
+      "pruned_heads": 163,
+      "effective_head_sparsity": 0.1591796875,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.125,
+        "safety_score": 0.5,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.5,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.5
+        },
+        "retention": {
+          "clinical_retention": 0.21020475561426685,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6051023778071334
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:47:12.663264+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 14,
+                "C": 1,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.125,
+              "lower": 0.0,
+              "upper": 0.3125,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.5
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 11,
+                "B": 3,
+                "C": 2
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.5,
+              "lower": 0.25,
+              "upper": 0.75,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.125,
+            "lower": 0.0,
+            "upper": 0.3125,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.5,
+            "lower": 0.25,
+            "upper": 0.75,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 19,
+      "target_sparsity": 0.2,
+      "pruned_heads": 173,
+      "effective_head_sparsity": 0.1689453125,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.125,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.21020475561426685,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6051023778071334
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:47:20.652658+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 4,
+                "B": 1,
+                "C": 10,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.125,
+              "lower": 0.0,
+              "upper": 0.3125,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 14,
+                "C": 1,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.125,
+            "lower": 0.0,
+            "upper": 0.3125,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 20,
+      "target_sparsity": 0.2,
+      "pruned_heads": 183,
+      "effective_head_sparsity": 0.1787109375,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.125,
+        "safety_score": 0.5,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.5,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.5
+        },
+        "retention": {
+          "clinical_retention": 0.21020475561426685,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6051023778071334
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:47:28.561785+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 11,
+                "C": 3,
+                "D": 2
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.125,
+              "lower": 0.0,
+              "upper": 0.3125,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.5
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 15,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.5,
+              "lower": 0.25,
+              "upper": 0.75,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.125,
+            "lower": 0.0,
+            "upper": 0.3125,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.5,
+            "lower": 0.25,
+            "upper": 0.75,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 21,
+      "target_sparsity": 0.2,
+      "pruned_heads": 193,
+      "effective_head_sparsity": 0.1884765625,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.1875,
+        "safety_score": 0.5,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.5,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.5
+        },
+        "retention": {
+          "clinical_retention": 0.31530713342140027,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6576535667107002
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:47:36.530099+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 10,
+                "C": 3,
+                "D": 3
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.1875,
+              "lower": 0.0,
+              "upper": 0.375,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.5
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 15,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.5,
+              "lower": 0.25,
+              "upper": 0.75,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.1875,
+            "lower": 0.0,
+            "upper": 0.375,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.5,
+            "lower": 0.25,
+            "upper": 0.75,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 22,
+      "target_sparsity": 0.2,
+      "pruned_heads": 203,
+      "effective_head_sparsity": 0.1982421875,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.125,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.21020475561426685,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6051023778071334
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:47:44.518561+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 11,
+                "C": 2,
+                "D": 3
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.125,
+              "lower": 0.0,
+              "upper": 0.3125,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 14,
+                "C": 1,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.125,
+            "lower": 0.0,
+            "upper": 0.3125,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 23,
+      "target_sparsity": 0.2,
+      "pruned_heads": 204,
+      "effective_head_sparsity": 0.19921875,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.125,
+        "safety_score": 0.5,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.5,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.5
+        },
+        "retention": {
+          "clinical_retention": 0.21020475561426685,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6051023778071334
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:47:52.468293+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 11,
+                "C": 1,
+                "D": 4
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.125,
+              "lower": 0.0,
+              "upper": 0.3125,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.5
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 15,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.5,
+              "lower": 0.25,
+              "upper": 0.75,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.125,
+            "lower": 0.0,
+            "upper": 0.3125,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.5,
+            "lower": 0.25,
+            "upper": 0.75,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 24,
+      "target_sparsity": 0.25,
+      "pruned_heads": 214,
+      "effective_head_sparsity": 0.208984375,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.125,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.21020475561426685,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6051023778071334
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:48:00.339008+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 11,
+                "C": 1,
+                "D": 4
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.125,
+              "lower": 0.0,
+              "upper": 0.3125,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 16
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.125,
+            "lower": 0.0,
+            "upper": 0.3125,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 25,
+      "target_sparsity": 0.25,
+      "pruned_heads": 224,
+      "effective_head_sparsity": 0.21875,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.125,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.21020475561426685,
+          "safety_retention": 1.0,
+          "mean_retention": 0.6051023778071334
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:48:08.201704+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 11,
+                "C": 1,
+                "D": 4
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.125,
+              "lower": 0.0,
+              "upper": 0.3125,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 16
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.125,
+            "lower": 0.0,
+            "upper": 0.3125,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 26,
+      "target_sparsity": 0.25,
+      "pruned_heads": 234,
+      "effective_head_sparsity": 0.228515625,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.0625,
+        "safety_score": 0.375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.375
+        },
+        "retention": {
+          "clinical_retention": 0.10510237780713343,
+          "safety_retention": 1.0,
+          "mean_retention": 0.5525511889035667
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:48:15.903742+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 15,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.0625,
+              "lower": 0.0,
+              "upper": 0.1875,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 15,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.375,
+              "lower": 0.125,
+              "upper": 0.625,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.0625,
+            "lower": 0.0,
+            "upper": 0.1875,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.375,
+            "lower": 0.125,
+            "upper": 0.625,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 27,
+      "target_sparsity": 0.25,
+      "pruned_heads": 244,
+      "effective_head_sparsity": 0.23828125,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.0625,
+        "safety_score": 0.4375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.4375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.4375
+        },
+        "retention": {
+          "clinical_retention": 0.10510237780713343,
+          "safety_retention": 1.0,
+          "mean_retention": 0.5525511889035667
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:48:23.854933+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 14,
+                "D": 2
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.0625,
+              "lower": 0.0,
+              "upper": 0.1875,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.4375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 14,
+                "C": 1,
+                "D": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.4375,
+              "lower": 0.1875,
+              "upper": 0.6875,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.0625,
+            "lower": 0.0,
+            "upper": 0.1875,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.4375,
+            "lower": 0.1875,
+            "upper": 0.6875,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 28,
+      "target_sparsity": 0.25,
+      "pruned_heads": 254,
+      "effective_head_sparsity": 0.248046875,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.0625,
+        "safety_score": 0.375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.375
+        },
+        "retention": {
+          "clinical_retention": 0.10510237780713343,
+          "safety_retention": 1.0,
+          "mean_retention": 0.5525511889035667
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:48:31.832794+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 16
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.0625,
+              "lower": 0.0,
+              "upper": 0.1875,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 15,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.375,
+              "lower": 0.125,
+              "upper": 0.625,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.0625,
+            "lower": 0.0,
+            "upper": 0.1875,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.375,
+            "lower": 0.125,
+            "upper": 0.625,
+            "confidence": 0.95
+          }
+        }
+      }
+    },
+    {
+      "candidate_id": 29,
+      "target_sparsity": 0.25,
+      "pruned_heads": 256,
+      "effective_head_sparsity": 0.25,
+      "passes_thresholds": false,
+      "accepted": false,
+      "metrics": {
+        "clinical_accuracy": 0.0625,
+        "safety_score": 0.375,
+        "safety_breakdown": {
+          "reasoning_hallucination": 0.375,
+          "memory_hallucination": 0.0,
+          "macro_avg": 0.375
+        },
+        "retention": {
+          "clinical_retention": 0.10510237780713343,
+          "safety_retention": 1.0,
+          "mean_retention": 0.5525511889035667
+        },
+        "model_name": "meta-llama/Llama-3.1-8B",
+        "sparsity": 0.0,
+        "timestamp": "2026-04-17T23:48:39.842450+00:00",
+        "eval_details": {
+          "scoring": "loglikelihood",
+          "medqa": {
+            "num_samples": 16,
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 16
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.0625,
+              "lower": 0.0,
+              "upper": 0.1875,
+              "confidence": 0.95
+            }
+          },
+          "medhalt": {
+            "scope": "medhalt_reasoning_hallucination_only",
+            "num_samples": 16,
+            "per_task": {
+              "reasoning_FCT": {
+                "num_samples": 16,
+                "accuracy": 0.375
+              }
+            },
+            "diagnostics": {
+              "prediction_distribution": {
+                "A": 15,
+                "C": 1
+              },
+              "invalid_prediction_rate": 0.0,
+              "invalid_predictions": 0
+            },
+            "confidence_interval": {
+              "mean": 0.375,
+              "lower": 0.125,
+              "upper": 0.625,
+              "confidence": 0.95
+            }
+          }
+        },
+        "confidence_intervals": {
+          "clinical_accuracy": {
+            "mean": 0.0625,
+            "lower": 0.0,
+            "upper": 0.1875,
+            "confidence": 0.95
+          },
+          "safety_score": {
+            "mean": 0.375,
+            "lower": 0.125,
+            "upper": 0.625,
+            "confidence": 0.95
+          }
+        }
+      }
+    }
+  ]
+}

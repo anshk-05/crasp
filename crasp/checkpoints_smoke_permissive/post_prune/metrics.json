@@ -1,0 +1,74 @@
+{
+  "clinical_accuracy": 0.0625,
+  "safety_score": 0.375,
+  "safety_breakdown": {
+    "reasoning_hallucination": 0.375,
+    "memory_hallucination": 0.0,
+    "macro_avg": 0.375
+  },
+  "retention": {
+    "clinical_retention": 0.10510237780713343,
+    "safety_retention": 1.0,
+    "mean_retention": 0.5525511889035667
+  },
+  "model_name": "meta-llama/Llama-3.1-8B",
+  "sparsity": 0.0,
+  "timestamp": "2026-04-18T00:02:56.149392+00:00",
+  "eval_details": {
+    "scoring": "loglikelihood",
+    "medqa": {
+      "num_samples": 16,
+      "diagnostics": {
+        "prediction_distribution": {
+          "A": 16
+        },
+        "invalid_prediction_rate": 0.0,
+        "invalid_predictions": 0
+      },
+      "confidence_interval": {
+        "mean": 0.0625,
+        "lower": 0.0,
+        "upper": 0.1875,
+        "confidence": 0.95
+      }
+    },
+    "medhalt": {
+      "scope": "medhalt_reasoning_hallucination_only",
+      "num_samples": 16,
+      "per_task": {
+        "reasoning_FCT": {
+          "num_samples": 16,
+          "accuracy": 0.375
+        }
+      },
+      "diagnostics": {
+        "prediction_distribution": {
+          "A": 15,
+          "C": 1
+        },
+        "invalid_prediction_rate": 0.0,
+        "invalid_predictions": 0
+      },
+      "confidence_interval": {
+        "mean": 0.375,
+        "lower": 0.125,
+        "upper": 0.625,
+        "confidence": 0.95
+      }
+    }
+  },
+  "confidence_intervals": {
+    "clinical_accuracy": {
+      "mean": 0.0625,
+      "lower": 0.0,
+      "upper": 0.1875,
+      "confidence": 0.95
+    },
+    "safety_score": {
+      "mean": 0.375,
+      "lower": 0.125,
+      "upper": 0.625,
+      "confidence": 0.95
+    }
+  }
+}

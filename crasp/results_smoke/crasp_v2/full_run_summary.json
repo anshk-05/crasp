@@ -1,0 +1,12 @@
+{
+  "status": "diagnostics_only",
+  "calibration_manifest": "/workspace/crasp-vol/data/calibration_smoke/calibration_manifest.json",
+  "post_sft": "/workspace/crasp-vol/checkpoints_smoke/post_sft",
+  "saliency_report": "/workspace/crasp-vol/results_smoke/crasp_v2/saliency/saliency_report.json",
+  "post_prune": "/workspace/crasp-vol/checkpoints_smoke/post_prune",
+  "post_prune_status": "no_accepted_candidate",
+  "post_recovery": null,
+  "effective_head_sparsity": 0.0,
+  "comparison_rows": [],
+  "comparison_markdown": "No accepted CRASP pruning candidate; comparison table skipped."
+}

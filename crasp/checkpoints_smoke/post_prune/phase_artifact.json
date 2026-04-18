@@ -1,0 +1,23 @@
+{
+  "phase": "post_prune_failed",
+  "created_at": "2026-04-17T23:48:39.846367+00:00",
+  "model_name": "meta-llama/Llama-3.1-8B",
+  "base_model": "meta-llama/Llama-3.1-8B",
+  "parent": "/workspace/crasp-vol/checkpoints_smoke/post_sft",
+  "adapter_path": null,
+  "mask_path": "/workspace/crasp-vol/checkpoints_smoke/post_prune/mask.json",
+  "metrics_path": "/workspace/crasp-vol/checkpoints_smoke/post_prune/metrics.json",
+  "extra": {
+    "saliency_report": "/workspace/crasp-vol/results_smoke/crasp_v2/saliency/saliency_report.json",
+    "selection_policy": "highest_sparsity_passing_dual_retention_gate",
+    "thresholds": {
+      "clinical_retention_threshold": 0.8,
+      "safety_retention_threshold": 0.8
+    },
+    "accepted": false,
+    "pruned_heads": 0,
+    "total_heads": 1024,
+    "effective_head_sparsity": 0.0,
+    "accepted_candidate_id": null
+  }
+}
